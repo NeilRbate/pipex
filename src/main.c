@@ -6,9 +6,11 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2022/12/23 09:31:14 by jbarbate         ###   ########.fr       */
+/*   Updated: 2022/12/23 09:58:56 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../include/pipex.h"
 
 int	main(int argc, char **argv)
 {
