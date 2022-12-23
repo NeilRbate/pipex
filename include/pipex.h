@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:28:44 by jbarbate          #+#    #+#             */
-/*   Updated: 2022/12/23 09:30:15 by jbarbate         ###   ########.fr       */
+/*   Updated: 2022/12/23 09:47:38 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "../libft/libft.h"
 
 #endif
