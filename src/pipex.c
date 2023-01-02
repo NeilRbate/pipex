@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/02 14:11:12 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/02 15:23:46 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,31 @@
 
 void	ft_exectwo(int *fd, char **cmd1, char **cmd2, char **path, char **env)
 {
-	int		pipe_fd[2];
+	pid_t	pid1;
+	pid_t	pid2;
 	int		wait_status;
-	pid_t	pid;
-	
-	if (pipe(pipe_fd) == -1)
-		return (perror("pipe"));
-	pid = fork();
-	if (pid == -1)
-		return (perror("fork"));
+	int		p_fd[2];
 
+	pipe(p_fd);
+	if (p_fd == -1)
+		return (perror("pipe"));
+	pid1 = fork();
+	if (pid1 == -1)
+		return (perror("fork"));
+	if (pid1 == 0)
+	{
+		close(p_fd(1));
+		dup2(p_fd[0], fd[0]);
+		close(p_fd[0]);
+		execve(path, cmd1, env);
+		perror("execve");
+		return;
+	}
+	else
+	{
+		close(p_fd(0));
+		dup2(p_fd[1], fd)
+	}
 }
 
 void	ft_twocmd(int *fd, char **argv, char **path, char **env)
@@ -35,18 +50,13 @@ void	ft_twocmd(int *fd, char **argv, char **path, char **env)
 	if (!cmd1)
 	{
 		ft_putendl_fd("ERROR: Split fail", 2);
-		close(fd[0]);
-		close(fd[1]);
-		exit(EXIT_FAILURE);
+		return (close(fd[0]), close(fd[1]));
 	}
 	cmd2 = ft_split(argv[1], 32);
 	if (!cmd2)
 	{
 		ft_putendl_fd("ERROR: Split fail", 2);
-		ft_freesplit(cmd1);
-		close(fd[0]);
-		close(fd[1]);
-		exit(EXIT_FAILURE);
+		return (ft_freesplit(cmd1), close(fd[0]), close(fd[1]));
 	}
 	ft_exectwo(fd, cmd1, cmd2, path, env);
 	return (ft_freesplit(cmd1), ft_freesplit(cmd2));
