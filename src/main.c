@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/03 12:54:45 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/03 14:54:30 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **env)
 		data->output = ft_openwrite(argv[argc-1]);
 		if (data->output == -1)
 			return (close(data->input), -1);
-		data->nb_cmd = argc - 3;
+		data->nb_pipe = argc - 3;
 		data->argv = data->argv+2
 		ft_pipex(data);
 	}

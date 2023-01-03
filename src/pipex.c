@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/03 12:54:48 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:18:22 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,13 @@ void	ft_extractcmd(t_data *data)
 	if (!cmd)
 		return (perror("malloc"));
 	data->argv = data->argv + 1;
-	data->cmd1 = cmd;
-	cmd = ft_split(data->argv[0], 32);
-	if (!cmd)
-		return (perror("malloc"));
-	data->argv = data->argv + 1;
-	data->cmd2 = cmd;
+	data->cmd = cmd;
 }
 
-char	**ft_extractpath(t_data *data, char *cmd)
+char	**ft_extractpath(t_data *data)
 {
 	int		i;
-	char	*pathcmd;
+	char		*pathcmd;
 
 	i = 1;
 	while (data->path[i])
@@ -42,18 +37,27 @@ char	**ft_extractpath(t_data *data, char *cmd)
 		if (acces(pathcmd, F_OK) == 0)
 			return (pathcmd);
 		else
-			free(data->pathcmd1)
+			free(data->pathcmd)
 		i++;
 	}
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(": command not found");
 	return (NULL);
 }
 
 void	ft_child(t_data *data)
 {
-	
+	if (data->nb_cmd == 0)
+		dup2(data->input, 0);
+	else
+		dup2(data->pipe_fd[])
+	close (data->pipe_fd[1]);
+	dup2(data->pipe_fd[0], 1);
+	if (execve(data->pathcmd, data->cmd[1], data->env) == -1)
+		return (perror("execve"));
 }
 
-void	ft_twocmd(t_data *data)
+void	ft_exec(t_data *data)
 {
 	pipe(data->pipe_fd);
 	if (data->pipe_fd == -1)
@@ -63,33 +67,18 @@ void	ft_twocmd(t_data *data)
 	if (data->pid == -1)
 		return (ft_freedata(data), perror("fork"), exit(EXIT_FAILURE));
 	if (pid == 0)
-	{
-		//child
-
-	}
+		ft_child(data);	
 	else
-	{
-		//parent
-	}
-
-
-
+		waitpid(data->pid, NULL, 0);
 }
 
 void	ft_pipex(t_data *data)
 {
-	int	out;
-
-	out = data->output;
-	if (data->nb_cmd == 2)
-		ft_twocmd(data);
-	else
+	data->nb_cmd = 0;
+	while (data->nb_cmd < data->nb_pipe)
 	{
-		while (data->nb_cmd > 2)
-		{
-			ft_twocmd(data);
-			data->nb_cmd--;
-		}
-		data->output = out;
+		ft_exec(data);
+		data->nb_cmd++;
 	}
+	data->output = out;
 }
