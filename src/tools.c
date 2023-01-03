@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 08:59:42 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/02 13:22:44 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/03 10:11:55 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ void	ft_freesplit(char **split)
 		i++;
 	}
 	free(split);
+}
+
+void	ft_freedata(t_data *data)
+{
+	if (data->path != NULL)
+		ft_freesplit(data->path);
+	close(data->input);
+	close(data->output);
 }
 
 char	**ft_splitpath(char **env)

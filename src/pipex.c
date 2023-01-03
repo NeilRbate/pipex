@@ -6,84 +6,90 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/02 15:23:46 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/03 12:54:48 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-void	ft_exectwo(int *fd, char **cmd1, char **cmd2, char **path, char **env)
+void	ft_extractcmd(t_data *data)
 {
-	pid_t	pid1;
-	pid_t	pid2;
-	int		wait_status;
-	int		p_fd[2];
+	char	**cmd;
 
-	pipe(p_fd);
-	if (p_fd == -1)
-		return (perror("pipe"));
-	pid1 = fork();
-	if (pid1 == -1)
-		return (perror("fork"));
-	if (pid1 == 0)
-	{
-		close(p_fd(1));
-		dup2(p_fd[0], fd[0]);
-		close(p_fd[0]);
-		execve(path, cmd1, env);
-		perror("execve");
-		return;
-	}
-	else
-	{
-		close(p_fd(0));
-		dup2(p_fd[1], fd)
-	}
+	cmd = ft_split(data->argv[0], 32);
+	if (!cmd)
+		return (perror("malloc"));
+	data->argv = data->argv + 1;
+	data->cmd1 = cmd;
+	cmd = ft_split(data->argv[0], 32);
+	if (!cmd)
+		return (perror("malloc"));
+	data->argv = data->argv + 1;
+	data->cmd2 = cmd;
 }
 
-void	ft_twocmd(int *fd, char **argv, char **path, char **env)
+char	**ft_extractpath(t_data *data, char *cmd)
 {
-	char	**cmd1;
-	char	**cmd2;
-
-	cmd1 = ft_split(argv[0], 32);
-	if (!cmd1)
-	{
-		ft_putendl_fd("ERROR: Split fail", 2);
-		return (close(fd[0]), close(fd[1]));
-	}
-	cmd2 = ft_split(argv[1], 32);
-	if (!cmd2)
-	{
-		ft_putendl_fd("ERROR: Split fail", 2);
-		return (ft_freesplit(cmd1), close(fd[0]), close(fd[1]));
-	}
-	ft_exectwo(fd, cmd1, cmd2, path, env);
-	return (ft_freesplit(cmd1), ft_freesplit(cmd2));
-}
-
-void	ft_pipex(int *fd, char** argv, char **path, char **env)
-{
-	int		size;
 	int		i;
-	int		out;
+	char	*pathcmd;
 
-	i = 0;
-	size = 0;
-	while (argv[size] != NULL)
-		size++;
-	size -= 1;
-	if (size == 2)
-		ft_twocmd(fd, argv, path);
+	i = 1;
+	while (data->path[i])
+	{
+		pathcmd = ft_strjoin(data->path[i], cmd);
+		if (pathcmd == NULL)
+			return (perror("malloc"));
+		if (acces(pathcmd, F_OK) == 0)
+			return (pathcmd);
+		else
+			free(data->pathcmd1)
+		i++;
+	}
+	return (NULL);
+}
+
+void	ft_child(t_data *data)
+{
+	
+}
+
+void	ft_twocmd(t_data *data)
+{
+	pipe(data->pipe_fd);
+	if (data->pipe_fd == -1)
+		return;
+	ft_extractcmd(data);
+	data->pid = fork();
+	if (data->pid == -1)
+		return (ft_freedata(data), perror("fork"), exit(EXIT_FAILURE));
+	if (pid == 0)
+	{
+		//child
+
+	}
 	else
 	{
-		out = fd[1];
-		while (i < size - 2)
+		//parent
+	}
+
+
+
+}
+
+void	ft_pipex(t_data *data)
+{
+	int	out;
+
+	out = data->output;
+	if (data->nb_cmd == 2)
+		ft_twocmd(data);
+	else
+	{
+		while (data->nb_cmd > 2)
 		{
-			/*ft_execmd(fd, argv + i, path);*/
-			i++;
+			ft_twocmd(data);
+			data->nb_cmd--;
 		}
-		fd[1] = out;
-		ft_twocmd(fd, argv, path);
+		data->output = out;
 	}
 }
