@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/04 11:51:44 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/04 14:54:56 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **env)
 		ft_pipex(data);
 	}
 	ft_freesplit(data->path);
+
 	return (0);
 }
 
