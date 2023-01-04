@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/03 14:54:30 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/04 11:51:44 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc < 5)
 		return (ft_putendl_fd("ERROR: Too few args", 2), -1);
-	data = malloc(sizeof(s_data));
+	data = malloc(sizeof(*data));
 	if (!data)
 		return (ft_putendl_fd("ERROR: Malloc fail", 1), -1);
 	data->path = ft_splitpath(env);
+	data->argv = argv;
+	data->env = env;
 	if (!data->path)
 		return (free(data), ft_putendl_fd("ERROR: Split PATH fail", 2), -2);
 	if (ft_strcmp(argv[1], "here_doc") == 0 && ft_strlen(argv[1]) == 8)
@@ -37,7 +39,7 @@ int	main(int argc, char **argv, char **env)
 		if (data->output == -1)
 			return (close(data->input), -1);
 		data->nb_pipe = argc - 3;
-		data->argv = data->argv+2
+		data->argv = data->argv + 2;
 		ft_pipex(data);
 	}
 	ft_freesplit(data->path);

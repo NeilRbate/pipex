@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:28:44 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/03 15:18:28 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/04 08:57:37 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ typedef	struct	s_data
 	char	**argv;
 	char	**env;
 	char	**cmd;
-}				t_data
+}				t_data;
 
 int		ft_openread(char *file);
 int		ft_openwrite(char *file);
-void	ft_pipex(int fd[2], char** argv, char **env);
+void	ft_pipex(t_data *data);
 void	ft_freesplit(char **split);
 void	ft_freedata(t_data *data);
 char	**ft_splitpath(char **env);
