@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/05 08:20:18 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/05 08:44:20 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	main(int argc, char **argv, char **env)
 	}
 	ft_freedata(data);
 	free(data);
-	system("leaks pipex");
-
 	return (0);
 }
 
