@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 08:59:42 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/03 10:11:55 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/05 08:21:32 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_openwrite(char *file)
 	if (fd != -1)
 	{
 		close(fd);
-		return(ft_putendl_fd("ERROR: Try to open a directory", 2), -1);
+		return (ft_putendl_fd("ERROR: Try to open a directory", 2), -1);
 	}
 	fd = open(file, O_WRONLY);
 	if (fd == -1)
@@ -53,7 +53,7 @@ void	ft_freesplit(char **split)
 	int	i;
 
 	i = 0;
-	while(split[i])
+	while (split[i])
 	{
 		free(split[i]);
 		i++;
@@ -65,8 +65,10 @@ void	ft_freedata(t_data *data)
 {
 	if (data->path != NULL)
 		ft_freesplit(data->path);
-	close(data->input);
-	close(data->output);
+	if (data->pathcmd != NULL)
+		free(data->pathcmd);
+	if (data->cmd != NULL)
+		ft_freesplit(data->cmd);
 }
 
 char	**ft_splitpath(char **env)

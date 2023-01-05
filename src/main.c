@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/04 14:54:56 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/05 08:20:18 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	main(int argc, char **argv, char **env)
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (ft_putendl_fd("ERROR: Malloc fail", 1), -1);
-	data->path = ft_splitpath(env);
 	data->argv = argv;
 	data->env = env;
+	data->path = ft_splitpath(env);
 	if (!data->path)
 		return (free(data), ft_putendl_fd("ERROR: Split PATH fail", 2), -2);
 	if (ft_strcmp(argv[1], "here_doc") == 0 && ft_strlen(argv[1]) == 8)
@@ -42,7 +42,9 @@ int	main(int argc, char **argv, char **env)
 		data->argv = data->argv + 2;
 		ft_pipex(data);
 	}
-	ft_freesplit(data->path);
+	ft_freedata(data);
+	free(data);
+	system("leaks pipex");
 
 	return (0);
 }

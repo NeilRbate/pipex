@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/04 14:54:54 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/05 08:24:43 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_extractpath(t_data *data)
 	}
 	ft_putstr_fd(data->argv[0], 2);
 	ft_putendl_fd(": command not found", 2);
-	return;
+	return ;
 }
 
 void	ft_child(t_data *data)
@@ -59,9 +59,9 @@ void	ft_child(t_data *data)
 	}
 	else
 	{
-		close(data->pipe_fd[1]);
+		close(data->pipe_fd[0]);
 		dup2(data->input, 0);
-		dup2(data->pipe_fd[0], STDOUT_FILENO);
+		dup2(data->pipe_fd[1], 1);
 	}
 	data->cmd[0] = data->pathcmd;
 	if (execve(data->pathcmd, data->cmd, data->env) == -1)
@@ -73,7 +73,7 @@ void	ft_exec(t_data *data)
 	ft_extractcmd(data);
 	ft_extractpath(data);
 	if (pipe(data->pipe_fd) == -1)
-		return;
+		return (ft_freedata(data), perror("pipe"), exit(EXIT_FAILURE));
 	data->pid = fork();
 	if (data->pid == -1)
 		return (ft_freedata(data), perror("fork"), exit(EXIT_FAILURE));
@@ -81,11 +81,11 @@ void	ft_exec(t_data *data)
 		ft_child(data);	
 	else
 	{
-		close(data->pipe_fd[0]);
+		close(data->pipe_fd[1]);
+		close(data->input);
+		data->input = dup(data->pipe_fd[0]);
 		waitpid(data->pid, NULL, 0);
-		dup2(data->input, data->pipe_fd[1]);
 	}
-	//a faire -> gerer les wait
 }
 
 void	ft_pipex(t_data *data)
@@ -96,5 +96,4 @@ void	ft_pipex(t_data *data)
 		ft_exec(data);
 		data->nb_cmd++;
 	}
-		waitpid(data->pid, NULL, 0);
 }
