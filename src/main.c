@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 12:29:25 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:00:31 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **env)
 	data->env = env;
 	data->argc = argc;
 	if (ft_initdata(data) < 0)
-		return (1);
+		return (free(data), 1);
 	if (ft_strcmp(argv[1], "here_doc") == 0 && ft_strlen(argv[1]) == 8)
 	{
 		ft_putendl_fd("test here_doc", 1);
@@ -53,9 +53,9 @@ int	main(int argc, char **argv, char **env)
 	{
 		ret = ft_pipex(data);
 		if (ret != 0)
-			return (ret);
+			return (ft_freesplit(data->path), free(data), ret);
 	}
-	ft_freedata(data);
+	ft_freesplit(data->path);
 	free(data);
 	return (ret);
 }

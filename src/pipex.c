@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 12:37:08 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:03:54 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,14 @@ int	ft_pipex(t_data *data)
 		ft_extractcmd(data);
 		ret = ft_extractpath(data);
 		if (ret != 0)
-			return (ret);
+			return (ft_freesplit(data->cmd), ret);
 		ret = ft_exec(data);
 		if (ret != 0)
-			return (ret);
+			return (free(data->pathcmd), ft_freesplit(data->cmd), ret);
 		data->nb_cmd++;
+		free(data->pathcmd);
+		ft_freesplit(data->cmd);
 	}
+	close(data->output);
 	return (ret);
 }
