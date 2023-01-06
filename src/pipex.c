@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/05 08:24:43 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/06 11:26:14 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,35 +48,39 @@ void	ft_extractpath(t_data *data)
 	return ;
 }
 
-void	ft_child(t_data *data)
+int	ft_child(t_data *data)
 {
 	if (data->nb_cmd == data->nb_pipe -1)
 	{
-		dup2(data->input, 0);
-		dup2(data->output, 1);
 		close(data->pipe_fd[0]);
 		close(data->pipe_fd[1]);
+		if (dup2(data->input, 0) == -1)
+			return (perror("dup2"), -1);
+		if (dup2(data->output, 1) == -1)
+			return (perror("dup2"), -1);
 	}
 	else
 	{
 		close(data->pipe_fd[0]);
-		dup2(data->input, 0);
-		dup2(data->pipe_fd[1], 1);
+		if (dup2(data->input, 0) == -1)
+			return (perror("dup2"), -1);
+		if (dup2(data->pipe_fd[1], 1) == -1)
+			return (perror("dup2"), -1);
 	}
 	data->cmd[0] = data->pathcmd;
-	if (execve(data->pathcmd, data->cmd, data->env) == -1)
-		return (perror("execve"));
+	execve(data->pathcmd, data->cmd, data->env);
+	return (perror("execve"), -1);
 }
 
-void	ft_exec(t_data *data)
+int	ft_exec(t_data *data)
 {
 	ft_extractcmd(data);
 	ft_extractpath(data);
 	if (pipe(data->pipe_fd) == -1)
-		return (ft_freedata(data), perror("pipe"), exit(EXIT_FAILURE));
+		return (ft_freedata(data), perror("pipe"), -1);
 	data->pid = fork();
 	if (data->pid == -1)
-		return (ft_freedata(data), perror("fork"), exit(EXIT_FAILURE));
+		return (ft_freedata(data), perror("fork"), -1);
 	if (data->pid == 0)
 		ft_child(data);	
 	else
@@ -84,16 +88,21 @@ void	ft_exec(t_data *data)
 		close(data->pipe_fd[1]);
 		close(data->input);
 		data->input = dup(data->pipe_fd[0]);
+		if (data->input == -1)
+			return (perror("dup"), -1);
 		waitpid(data->pid, NULL, 0);
 	}
+	return (127);
 }
 
-void	ft_pipex(t_data *data)
+int	ft_pipex(t_data *data)
 {
+	int	ret;
 	data->nb_cmd = 0;
 	while (data->nb_cmd < data->nb_pipe)
 	{
-		ft_exec(data);
+		ret = ft_exec(data);
 		data->nb_cmd++;
 	}
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 08:59:42 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/05 08:54:38 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/06 11:04:01 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	ft_openread(char *file)
 	{
 		close(fd);
 		ft_putendl_fd("ERROR: Try to open a directory", 2);
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
 		perror("open");
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	return (fd);
 }
@@ -40,11 +40,15 @@ int	ft_openwrite(char *file)
 	if (fd != -1)
 	{
 		close(fd);
-		return (ft_putendl_fd("ERROR: Try to open a directory", 2), -1);
+		ft_putendl_fd("ERROR: Try to open a directory", 2);
+		return (-1);
 	}
-	fd = open(file, O_WRONLY | O_CREAT);
+	fd = open(file, O_WRONLY | O_CREAT | O_APPEND);
 	if (fd == -1)
-		return (perror("open"), -1);
+	{
+		perror("open");
+		return (-1);
+	}
 	return (fd);
 }
 
