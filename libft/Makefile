@@ -6,7 +6,7 @@
 #    By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/08 07:03:24 by jbarbate          #+#    #+#              #
-#    Updated: 2022/12/20 08:32:04 by jbarbate         ###   ########.fr        #
+#    Updated: 2023/01/06 13:30:59 by jbarbate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
        ft_putendl_fd.c ft_putnbr_fd.c ft_substr.c ft_strjoin.c ft_strtrim.c \
        ft_itoa.c ft_strmapi.c ft_striteri.c ft_split.c ft_lstadd_back.c \
        ft_lstadd_front.c ft_lstlast.c ft_lstnew.c ft_lstsize.c ft_lstdelone.c \
-       ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_strcmp.c
+       ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_strcmp.c get_next_line.c \
+	   get_next_line_utils.c
 HEADER = -I libft.h
 OBJS = ${SRCS:.c=.o}
 NAME = libft.a

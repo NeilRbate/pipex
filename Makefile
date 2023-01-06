@@ -6,12 +6,12 @@
 #    By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/29 10:45:24 by jbarbate          #+#    #+#              #
-#    Updated: 2023/01/02 11:04:21 by jbarbate         ###   ########.fr        #
+#    Updated: 2023/01/06 13:46:42 by jbarbate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 GCC = gcc
-SRCS = src/main.c src/pipex.c src/tools.c
+SRCS = src/main.c src/pipex.c src/tools.c src/here_doc.c
 HEADER = libft/libft.a
 OBJS = ${SRCS:.c=.o}
 NAME = pipex

@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 07:05:59 by jbarbate          #+#    #+#             */
-/*   Updated: 2022/12/19 19:07:46 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:30:01 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,19 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/uio.h>
+# include <unistd.h>
 
+# define BUFFER_SIZE 10
+
+int		ft_isnl(char *s);
+char	*ft_gstrjoin(char *s1, char *s2);
+char	*ft_gstrdup(char *s1, int i);
+char	*get_next_line(int fd);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t	ft_strlen(const char *s);
 typedef struct s_list
 {
 	void			*content;
