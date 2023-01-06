@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:28:44 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 11:23:04 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:12:42 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-typedef	struct	s_data
+typedef struct s_data
 {
 	pid_t	pid;
 	int		input;
@@ -43,6 +43,4 @@ int		ft_pipex(t_data *data);
 void	ft_freesplit(char **split);
 void	ft_freedata(t_data *data);
 char	**ft_splitpath(char **env);
-
-
 #endif

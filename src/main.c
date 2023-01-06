@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 13:00:31 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:09:58 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	main(int argc, char **argv, char **env)
 	{
 		ft_putendl_fd("test here_doc", 1);
 		return (0);
-		//goto parti here_doc
 	}
 	else
 	{
@@ -55,8 +54,5 @@ int	main(int argc, char **argv, char **env)
 		if (ret != 0)
 			return (ft_freesplit(data->path), free(data), ret);
 	}
-	ft_freesplit(data->path);
-	free(data);
-	return (ret);
+	return (ft_freesplit(data->path), free(data), ret);
 }
-

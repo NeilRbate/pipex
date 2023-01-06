@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 13:03:54 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:11:25 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_exec(t_data *data)
 	if (data->pid == -1)
 		return (ft_freedata(data), perror("fork"), 1);
 	if (data->pid == 0)
-		ft_child(data);	
+		ft_child(data);
 	else
 	{
 		close(data->pipe_fd[1]);
@@ -93,6 +93,7 @@ int	ft_exec(t_data *data)
 int	ft_pipex(t_data *data)
 {
 	int	ret;
+
 	data->nb_cmd = 0;
 	while (data->nb_cmd < data->nb_pipe)
 	{
