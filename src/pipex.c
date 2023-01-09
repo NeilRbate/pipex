@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/09 10:58:40 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/09 15:28:12 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	ft_extractpath(t_data *data)
 			free(data->pathcmd);
 		i++;
 	}
+	data->pathcmd = NULL;
+	ft_putstr_fd("pipex: ", 2);
 	ft_putstr_fd(data->cmd[0], 2);
 	ft_putendl_fd(": command not found", 2);
 	return (127);
@@ -64,9 +66,14 @@ int	ft_child(t_data *data)
 		if (dup2(data->pipe_fd[1], 1) == -1)
 			return (perror("dup2"), -1);
 	}
-	data->cmd[0] = data->pathcmd;
-	execve(data->pathcmd, data->cmd, data->env);
-	return (perror("execve"), 126);
+	if (data->pathcmd != NULL)
+	{
+		data->cmd[0] = data->pathcmd;
+		execve(data->pathcmd, data->cmd, data->env);
+		return (perror("execve"), 126);
+	}
+	exit(EXIT_FAILURE);
+	return (0);
 }
 
 int	ft_exec(t_data *data)
@@ -94,6 +101,7 @@ int	ft_pipex(t_data *data)
 {
 	int	ret;
 
+	ret = 0;
 	data->nb_cmd = 0;
 	data->pid = malloc(sizeof(int) * data->nb_pipe);
 	if (!data->pid)
@@ -102,13 +110,12 @@ int	ft_pipex(t_data *data)
 	{
 		ft_extractcmd(data);
 		ret = ft_extractpath(data);
-		if (ret != 0)
-			return (ft_freesplit(data->cmd), ret);
 		ret = ft_exec(data);
 		if (ret != 0)
 			return (free(data->pathcmd), ft_freesplit(data->cmd), ret);
+		if (data->pathcmd != NULL)
+			free(data->pathcmd);
 		data->nb_cmd++;
-		free(data->pathcmd);
 		ft_freesplit(data->cmd);
 	}
 	close(data->output);

@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 08:59:42 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 12:45:06 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/09 15:10:33 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_openread(char *file)
 {
 	int	fd;
+	int	empty_fd[2];
 
 	fd = open(file, O_DIRECTORY);
 	if (fd != -1)
@@ -26,8 +27,11 @@ int	ft_openread(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("open");
-		return (-1);
+		ft_putstr_fd("pipex: ", 2);
+		perror(file);
+		pipe(empty_fd);
+		close(empty_fd[1]);
+		return (empty_fd[0]);
 	}
 	return (fd);
 }
@@ -43,10 +47,11 @@ int	ft_openwrite(char *file)
 		ft_putendl_fd("ERROR: Try to open a directory", 2);
 		return (-1);
 	}
-	fd = open(file, O_WRONLY | O_CREAT | O_APPEND);
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
 	{
-		perror("open");
+		ft_putstr_fd("pipex: ", 2);
+		perror(file);
 		return (-1);
 	}
 	return (fd);
@@ -73,6 +78,8 @@ void	ft_freedata(t_data *data)
 		free(data->pathcmd);
 	if (data->cmd != NULL)
 		ft_freesplit(data->cmd);
+	if (data->pid != NULL)
+		free(data->pid);
 }
 
 char	**ft_splitpath(char **env)
