@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 15:35:22 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/09 10:17:38 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ int	main(int argc, char **argv, char **env)
 		ret = ft_pipex(data);
 		if (ret != 0)
 			return (ft_freesplit(data->path), free(data), ret);
+	}
+	int i = 0;
+	while (i <= data->nb_cmd)
+	{
+		waitpid(data->pid[i], NULL, 0);
+		i++;
 	}
 	return (ft_freesplit(data->path), free(data), ret);
 }

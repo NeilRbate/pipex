@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 13:11:25 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/09 10:58:40 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,19 @@ int	ft_exec(t_data *data)
 {
 	if (pipe(data->pipe_fd) == -1)
 		return (ft_freedata(data), perror("pipe"), 1);
-	data->pid = fork();
-	if (data->pid == -1)
+	data->pid[data->nb_cmd] = fork();
+	if (data->pid[data->nb_cmd] == -1)
 		return (ft_freedata(data), perror("fork"), 1);
-	if (data->pid == 0)
+	if (data->pid[data->nb_cmd] == 0)
 		ft_child(data);
 	else
 	{
 		close(data->pipe_fd[1]);
 		close(data->input);
 		data->input = dup(data->pipe_fd[0]);
+		close(data->pipe_fd[0]);
 		if (data->input == -1)
 			return (perror("dup"), 1);
-		waitpid(data->pid, NULL, 0);
 	}
 	return (0);
 }
@@ -95,6 +95,9 @@ int	ft_pipex(t_data *data)
 	int	ret;
 
 	data->nb_cmd = 0;
+	data->pid = malloc(sizeof(int) * data->nb_pipe);
+	if (!data->pid)
+		return (perror("malloc"), 1);
 	while (data->nb_cmd < data->nb_pipe)
 	{
 		ft_extractcmd(data);

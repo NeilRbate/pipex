@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:28:44 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/06 13:45:55 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/09 09:55:24 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 typedef struct s_data
 {
-	pid_t	pid;
+	pid_t	*pid;
 	int		input;
 	int		output;
 	int		pipe_fd[2];
