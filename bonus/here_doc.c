@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:17:55 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/09 13:42:04 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/10 09:19:59 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_openwritehd(char *file)
 		ft_putendl_fd("ERROR: Try to open a directory", 2);
 		return (-1);
 	}
-	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666);
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
 	{
 		perror(file);
