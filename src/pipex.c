@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:34:40 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/09 15:28:12 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/10 08:39:45 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ int	ft_extractpath(t_data *data)
 		i++;
 	}
 	data->pathcmd = NULL;
-	ft_putstr_fd("pipex: ", 2);
-	ft_putstr_fd(data->cmd[0], 2);
-	ft_putendl_fd(": command not found", 2);
+	ft_putstr_fd("pipex: command not found: ", 2);
+	ft_putendl_fd(data->cmd[0], 2);
 	return (127);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:30:32 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/09 14:49:07 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/10 08:41:06 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 	if (!data)
 		return (ft_putendl_fd("ERROR: Malloc fail", 1), 1);
 	data->argc = argc;
-	if (ft_strcmp(argv[1], "here_doc") == 0 && ft_strlen(argv[1]) == 8)
+	if (ft_strcmp(argv[1], "here_doc") == 0 && ft_strlen(argv[1]) == 8 && argc > 5)
 	{
 		ft_initdata(data, argv, env, 0);
 		data->input = ft_heredoc(data, argv[2]);
