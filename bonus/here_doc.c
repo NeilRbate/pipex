@@ -6,7 +6,7 @@
 /*   By: jbarbate <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 10:17:55 by jbarbate          #+#    #+#             */
-/*   Updated: 2023/01/10 09:19:59 by jbarbate         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:55:31 by jbarbate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,11 @@ int	ft_heredoc(t_data *data, char *limiter)
 	while (1)
 	{
 		line = get_next_line(0);
+		if (line == NULL)
+			break ;
 		if (ft_strnstr(line, limiter, ft_strlen(limiter))
 			&& size == ft_strlen(line) - 1)
-		{
-			free(line);
 			break ;
-		}
 		str = ft_gstrjoin(str, line);
 		free(line);
 	}
